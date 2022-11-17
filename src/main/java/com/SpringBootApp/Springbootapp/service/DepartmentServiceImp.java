@@ -1,13 +1,16 @@
 package com.SpringBootApp.Springbootapp.service;
 
 import com.SpringBootApp.Springbootapp.entity.Department;
+import com.SpringBootApp.Springbootapp.error.DepartmentNotFoundException;
 import com.SpringBootApp.Springbootapp.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImp implements DepartmentService {
@@ -25,8 +28,13 @@ public class DepartmentServiceImp implements DepartmentService {
     }
 
     @Override
-    public Department fetchDepartmentbyID(Long departmentId) {
-        return departmentRepository.findById(departmentId).get();
+    public Department fetchDepartmentbyID(Long departmentId) throws DepartmentNotFoundException {
+        Optional<Department> department = departmentRepository.findById(departmentId);
+
+        if(department.isEmpty()) {
+            throw  new DepartmentNotFoundException("Deparment Not Available");
+        }
+        return department.get();
     }
 
     @Override
@@ -49,6 +57,11 @@ public class DepartmentServiceImp implements DepartmentService {
             dep.setDepartmentName(department.getDepartmentAddress());
         }
         return departmentRepository.save(dep);
+    }
+
+    @Override
+    public Department fetchDepartmentByName(String departmentName) {
+        return departmentRepository.findByDepartmentNameIgnoreCase(departmentName);
     }
 
 }
