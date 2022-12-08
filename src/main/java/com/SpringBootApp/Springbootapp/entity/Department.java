@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 @Builder
 public class Department {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long departmentId;
