@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 class DepartmentRepositoryTest {
 
+
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -20,18 +21,19 @@ class DepartmentRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        Department department = Department.builder()
-                .departmentName("Mechanical")
-                .departmentCode("ME12")
-                .departmentAddress("Istanbul")
-                .build();
+        Department department =
+                Department.builder()
+                        .departmentName("Mechanical Engineering")
+                        .departmentCode("ME - 011")
+                        .departmentAddress("Delhi")
+                        .build();
 
         entityManager.persist(department);
     }
 
     @Test
-    public void whenFidById_ThenReturnnDepartment(){
+    public void whenFindById_thenReturnDepartment() {
         Department department = departmentRepository.findById(1L).get();
-        assertEquals(department.getDepartmentName(),"Mechanical");
-    }
+        assertEquals(department.getDepartmentName(), "Mechanical Engineering");
+}
 }
